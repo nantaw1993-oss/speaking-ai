@@ -7,6 +7,10 @@
   <title>SpeakMate AI</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -17,28 +21,29 @@
     .container {
       max-width: 500px;
       margin: auto;
-      padding: 30px 20px;
+      padding: 25px 20px;
     }
 
     .logo {
       text-align: center;
-      font-size: 34px;
+      font-size: 32px;
       font-weight: bold;
       color: #2563eb;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .subtitle {
       text-align: center;
       color: #777;
-      margin: 10px 0 35px;
+      margin: 8px 0 30px;
     }
 
     .card {
       background: white;
       padding: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
     }
 
     h3 {
@@ -51,6 +56,7 @@
       border-radius: 12px;
       border: 1px solid #ddd;
       font-size: 16px;
+      background: white;
     }
 
     button {
@@ -62,12 +68,53 @@
       color: white;
       font-size: 18px;
       font-weight: bold;
+      cursor: pointer;
     }
 
-    #message {
-      text-align: center;
-      margin-top: 20px;
-      color: #2563eb;
+    .secondary {
+      background: #e5e7eb;
+      color: #222;
+      margin-top: 12px;
+    }
+
+    .ai-message {
+      background: #eff6ff;
+      padding: 18px;
+      border-radius: 16px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .user-message {
+      background: #f3f4f6;
+      padding: 18px;
+      border-radius: 16px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .correction {
+      background: #ecfdf5;
+      padding: 18px;
+      border-radius: 16px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .mic-button {
+      font-size: 22px;
+      margin-top: 15px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .label {
+      font-size: 13px;
+      color: #666;
+      font-weight: bold;
+      text-transform: uppercase;
     }
   </style>
 </head>
@@ -76,53 +123,190 @@
 
   <div class="container">
 
-    <div class="logo">
-      SpeakMate AI
+    <!-- HOME SCREEN -->
+
+    <div id="homeScreen">
+
+      <div class="logo">
+        SpeakMate AI
+      </div>
+
+      <div class="subtitle">
+        Your AI English Speaking Partner
+      </div>
+
+      <div class="card">
+
+        <h3>Choose your level</h3>
+
+        <select id="level">
+
+          <option>Beginner</option>
+          <option>Elementary</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+
+        </select>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Choose a topic</h3>
+
+        <select id="topic">
+
+          <option>Daily Life</option>
+          <option>Travel</option>
+          <option>Food</option>
+          <option>Job Interview</option>
+
+        </select>
+
+      </div>
+
+      <button onclick="startSpeaking()">
+        🎤 START SPEAKING
+      </button>
+
     </div>
 
-    <div class="subtitle">
-      Your AI English Speaking Partner
+
+    <!-- SPEAKING SCREEN -->
+
+    <div id="speakingScreen" class="hidden">
+
+      <div class="logo">
+        SpeakMate AI
+      </div>
+
+      <div class="subtitle">
+        Speaking Practice
+      </div>
+
+      <div class="card">
+
+        <div class="label">
+          AI
+        </div>
+
+        <div class="ai-message">
+          Hi! How are you today?
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          Your answer
+        </div>
+
+        <div id="userText" class="user-message">
+          Press the microphone and speak.
+        </div>
+
+        <button class="mic-button" onclick="startListening()">
+          🎤 SPEAK
+        </button>
+
+      </div>
+
+
+      <div id="correctionBox" class="card hidden">
+
+        <div class="label">
+          Better English
+        </div>
+
+        <div class="correction">
+          <b>Good job!</b><br><br>
+
+          Your sentence will appear here after you speak.
+        </div>
+
+      </div>
+
+
+      <button class="secondary" onclick="goHome()">
+        ← Back to Home
+      </button>
+
     </div>
-
-    <div class="card">
-      <h3>Choose your level</h3>
-
-      <select id="level">
-        <option>Beginner</option>
-        <option>Elementary</option>
-        <option>Intermediate</option>
-        <option>Advanced</option>
-      </select>
-    </div>
-
-    <div class="card">
-      <h3>Choose a topic</h3>
-
-      <select id="topic">
-        <option>Daily Life</option>
-        <option>Travel</option>
-        <option>Food</option>
-        <option>Job Interview</option>
-      </select>
-    </div>
-
-    <button onclick="startSpeaking()">
-      🎤 START SPEAKING
-    </button>
-
-    <div id="message"></div>
 
   </div>
+
 
   <script>
 
     function startSpeaking() {
 
-      let level = document.getElementById("level").value;
-      let topic = document.getElementById("topic").value;
+      document.getElementById("homeScreen").classList.add("hidden");
 
-      document.getElementById("message").innerText =
-        "Starting " + topic + " practice for " + level + "...";
+      document.getElementById("speakingScreen").classList.remove("hidden");
+
+    }
+
+
+    function startListening() {
+
+      const userText = document.getElementById("userText");
+
+      userText.innerText =
+        "Listening... 🎤 Please speak now.";
+
+      if ("webkitSpeechRecognition" in window) {
+
+        const recognition = new webkitSpeechRecognition();
+
+        recognition.lang = "en-US";
+
+        recognition.continuous = false;
+
+        recognition.interimResults = false;
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+
+          const text =
+            event.results[0][0].transcript;
+
+          userText.innerText = text;
+
+          document
+            .getElementById("correctionBox")
+            .classList.remove("hidden");
+
+        };
+
+        recognition.onerror = function() {
+
+          userText.innerText =
+            "Sorry, I couldn't hear you. Please try again.";
+
+        };
+
+      } else {
+
+        userText.innerText =
+          "Speech recognition is not supported in this browser.";
+
+      }
+
+    }
+
+
+    function goHome() {
+
+      document
+        .getElementById("speakingScreen")
+        .classList.add("hidden");
+
+      document
+        .getElementById("homeScreen")
+        .classList.remove("hidden");
 
     }
 
