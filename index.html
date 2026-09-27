@@ -259,7 +259,17 @@
         recognition.start();
 
         recognition.onresult = function(event) {
+const response = await fetch(WORKER_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: text
+  })
+});
 
+const data = await response.json();
           const text =
             event.results[0][0].transcript;
 
