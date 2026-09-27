@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeakMate AI</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #222;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 34px;
+      font-weight: bold;
+      color: #2563eb;
+      margin-top: 30px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin: 10px 0 35px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 18px;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: #2563eb;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 20px;
+      color: #2563eb;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">
+      SpeakMate AI
+    </div>
+
+    <div class="subtitle">
+      Your AI English Speaking Partner
+    </div>
+
+    <div class="card">
+      <h3>Choose your level</h3>
+
+      <select id="level">
+        <option>Beginner</option>
+        <option>Elementary</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h3>Choose a topic</h3>
+
+      <select id="topic">
+        <option>Daily Life</option>
+        <option>Travel</option>
+        <option>Food</option>
+        <option>Job Interview</option>
+      </select>
+    </div>
+
+    <button onclick="startSpeaking()">
+      🎤 START SPEAKING
+    </button>
+
+    <div id="message"></div>
+
+  </div>
+
+  <script>
+
+    function startSpeaking() {
+
+      let level = document.getElementById("level").value;
+      let topic = document.getElementById("topic").value;
+
+      document.getElementById("message").innerText =
+        "Starting " + topic + " practice for " + level + "...";
+
+    }
+
+  </script>
+
+</body>
+</html>
